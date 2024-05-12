@@ -31,4 +31,15 @@ public class GlobalExceptionHandler {
         }
     }
 
+    @ExceptionHandler(Exception.class)
+    public CommonResponse<?> handleException(Exception e) {
+        log.error("", e);
+        return CommonResponse.builder()
+                .success(false)
+                .code(SERVER_FAIL_CODE)
+                .message(FAIL_MESSAGE)
+                .result(e.getMessage())
+                .build();
+    }
+
 }

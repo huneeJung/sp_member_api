@@ -19,7 +19,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public CommonResponse<?> joinMember(@Valid JoinDto joinDto) {
+    public CommonResponse<?> joinMember(@RequestBody @Valid JoinDto joinDto) {
         memberService.joinMember(joinDto);
         return new CommonResponse<>().success("회원가입 완료");
     }

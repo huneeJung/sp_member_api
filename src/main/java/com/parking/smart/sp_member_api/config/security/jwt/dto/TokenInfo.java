@@ -39,6 +39,7 @@ public class TokenInfo {
                 .memberId(member.getMemberId())
                 .memberNm(member.getName())
                 .role(member.getRole().name())
+                .issueDate(new Date())
                 .build();
     }
 }

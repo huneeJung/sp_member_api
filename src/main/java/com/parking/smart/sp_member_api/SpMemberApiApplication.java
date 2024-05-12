@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -15,6 +16,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 @Slf4j
+@EnableJpaAuditing
 @SpringBootApplication
 @RequiredArgsConstructor
 public class SpMemberApiApplication implements WebMvcConfigurer {

@@ -1,5 +1,6 @@
 package com.parking.smart.sp_member_api.biz.member.service;
 
+import com.parking.smart.sp_member_api.biz.auth.dto.AuthRequest;
 import com.parking.smart.sp_member_api.biz.common.exception.AlertException;
 import com.parking.smart.sp_member_api.biz.common.mapper.MemberMapper;
 import com.parking.smart.sp_member_api.biz.member.dto.JoinDto;
@@ -21,11 +22,11 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public TokenInfo findByMemberId(String memberId, String passwd) {
-        var optional = memberRepository.findByMemberId(memberId);
+    public TokenInfo findByMemberId(AuthRequest authRequest) {
+        var optional = memberRepository.findByMemberId(authRequest.getMemberId());
         if (optional.isEmpty()) throw new AlertException("유효하지 않은 계정입니다.");
         var member = optional.get();
-        if (!member.getPassword().equals(passwordEncoder.encode(passwd))) {
+        if (passwordEncoder.matches(passwordEncoder.encode(authRequest.getPassword()), member.getPassword())) {
             throw new AlertException("유효하지 않은 계정입니다.");
         }
         return TokenInfo.from(member);
@@ -35,6 +36,7 @@ public class MemberService {
     public void joinMember(JoinDto joinDto) {
         checkDuplicateId(joinDto.getMemberId());
         var member = memberMapper.toMember(joinDto);
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
         member.setRole(Role.USER);
         memberRepository.save(member);
     }

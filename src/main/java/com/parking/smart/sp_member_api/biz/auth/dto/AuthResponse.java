@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthDto {
+public class AuthResponse {
 
     private String memberId;
     private String role;

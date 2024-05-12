@@ -21,6 +21,12 @@ public abstract class CommonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
+
+    @CreatedDate
+    @Column(name = "CREATED_DATE", updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime createDate;
+
+    @CreatedBy
     @Column(name = "CREATED_NAME", updatable = false, columnDefinition = "VARCHAR(20) DEFAULT 'SYSTEM'")
     private String createdName;
 

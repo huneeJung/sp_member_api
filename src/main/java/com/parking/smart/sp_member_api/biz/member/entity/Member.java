@@ -25,6 +25,7 @@ public class Member extends CommonEntity {
     @Column(name = "AGE")
     private String age;
 
+    @Column(name = "ROLE")
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 
