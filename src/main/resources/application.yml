@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: sp_member_api
+
+
+jwt:
+  secret-key: bWVnYWR4LWRtcC1zZXJ2aWNlLWRldmVsb3Atc2VjdXJpdHkta2V5LXZhbHVlLTIzMDEzMQ==
+  access-valid-time: 3600000
+  refresh-valid-time: 2592000000
