@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
@@ -41,10 +42,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         if (publicPathList.stream().noneMatch(url -> url.matches(request))) {
-            String token = getBearerToken(request);
-            AuthInfo authInfo = jwtTokenProvider.validate(token, null);
+            var token = getBearerToken(request);
+            var authInfo = jwtTokenProvider.validate(token, null);
             if (authInfo.isValid()) {
-                TokenInfo tokenInfo = authInfo.getTokenInfo();
+                var tokenInfo = authInfo.getTokenInfo();
                 var authentication = new UsernamePasswordAuthenticationToken(tokenInfo, null, null);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

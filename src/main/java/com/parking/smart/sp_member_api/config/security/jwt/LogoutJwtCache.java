@@ -21,12 +21,17 @@ public class LogoutJwtCache {
 
     @Value("${jwt.secret-key}")
     private String SECRET_KEY;
+    @Value("${jwt.access-valid-time:3600000}")
+    private long ACCESS_VALID_TIME;
     private Key key;
 
+    // 엑세스토큰만 보관하고 리프레시 토큰은 DB에 보관
     public LogoutJwtCache() {
+        // 일정 시간동안만 보관하는 캐시 맵 형태
         this.tokenEventMap = ExpiringMap.builder()
                 .variableExpiration()
                 .maxSize(1000)
+                .expiration(ACCESS_VALID_TIME,TimeUnit.MILLISECONDS)
                 .build();
     }
 
@@ -35,7 +40,7 @@ public class LogoutJwtCache {
         key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    // TODO 로그아웃 시도시 해당 메서드 호출
+    // TODO 로그아웃 시도시 해당 메서드 호출 이벤트로 빼보는거 괜찮을듯?
     public void markLogoutEventForToken(OnUserLogoutSuccessEvent event) {
         String token = event.getToken();
         if (tokenEventMap.containsKey(token)) {
@@ -55,7 +60,6 @@ public class LogoutJwtCache {
     private long getTtlForToken(Date date) {
         long secondAtExpiry = date.toInstant().getEpochSecond();
         long secondAtLogout = Instant.now().getEpochSecond();
-
         return Math.max(0, secondAtExpiry - secondAtLogout);
     }
 }

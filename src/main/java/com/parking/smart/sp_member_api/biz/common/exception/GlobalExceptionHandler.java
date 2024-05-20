@@ -13,8 +13,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public CommonResponse<?> handleException(RuntimeException e) {
-        log.error("", e);
         if (e instanceof AlertException) {
+            log.info("", e);
             return CommonResponse.builder()
                     .success(false)
                     .code(CLIENT_FAIL_CODE)
@@ -22,6 +22,7 @@ public class GlobalExceptionHandler {
                     .result(e.getMessage())
                     .build();
         } else {
+            log.error("", e);
             return CommonResponse.builder()
                     .success(false)
                     .code(SERVER_FAIL_CODE)

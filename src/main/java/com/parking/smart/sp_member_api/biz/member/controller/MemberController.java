@@ -6,10 +6,7 @@ import com.parking.smart.sp_member_api.biz.member.service.MemberService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,9 +22,14 @@ public class MemberController {
     }
 
     @PostMapping("/check")
-    public CommonResponse<?> joinMember(@RequestBody @NotEmpty String memberId) {
+    public CommonResponse<?> checkMemberId(@RequestBody @NotEmpty String memberId) {
         memberService.checkDuplicateId(memberId);
         return new CommonResponse<>().success("사용가능한 계정입니다");
+    }
+
+    @GetMapping("{id}")
+    public CommonResponse<?> getMemberInfo(@PathVariable(name = "id") @NotEmpty String memberId) {
+        return new CommonResponse<>().success("호출 성공");
     }
 
 }
