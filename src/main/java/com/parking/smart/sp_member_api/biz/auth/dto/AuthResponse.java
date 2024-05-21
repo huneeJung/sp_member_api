@@ -11,6 +11,7 @@ import lombok.*;
 public class AuthResponse {
 
     private String memberId;
+    private String name;
     private String role;
     private JwtToken jwtToken;
 

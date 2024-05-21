@@ -12,8 +12,8 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "REFRESH_TOKEN_HISTORY")
-public class RefreshTokenHistory extends CommonEntity {
+@Table(name = "REFRESH_TOKEN_ISSUE_HISTORY")
+public class RefreshTokenIssueHistory extends CommonEntity {
 
     @Column(name = "REFRESH_TOKEN", unique = true)
     private String refreshToken;
