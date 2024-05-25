@@ -21,7 +21,7 @@ public class AuthHistory extends CommonEntity {
     @Column(name = "IP_ADRESS")
     private String ipAddress;
 
-    @Column(name = "USE_YN")
-    private Boolean useYN = false;
+    @Column(name = "LOGIN_STATUS")
+    private Boolean loginStatus = true;
 
 }
