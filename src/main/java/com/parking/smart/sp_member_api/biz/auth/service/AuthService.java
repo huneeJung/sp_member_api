@@ -2,8 +2,11 @@ package com.parking.smart.sp_member_api.biz.auth.service;
 
 import com.parking.smart.sp_member_api.biz.auth.dto.AuthRequest;
 import com.parking.smart.sp_member_api.biz.auth.dto.AuthResponse;
+import com.parking.smart.sp_member_api.biz.auth.entity.LoginHistory;
+import com.parking.smart.sp_member_api.biz.auth.repository.LoginHistoryRepository;
 import com.parking.smart.sp_member_api.biz.auth.repository.RefreshTokenHistoryRepository;
 import com.parking.smart.sp_member_api.biz.common.exception.AlertException;
+import com.parking.smart.sp_member_api.biz.common.utils.HttpUtil;
 import com.parking.smart.sp_member_api.biz.member.service.MemberService;
 import com.parking.smart.sp_member_api.config.security.jwt.JwtTokenProvider;
 import com.parking.smart.sp_member_api.config.security.jwt.dto.TokenInfo;
@@ -21,6 +24,7 @@ public class AuthService {
     private final MemberService memberService;
 
     private final RefreshTokenHistoryRepository refreshTokenHistoryRepository;
+    private final LoginHistoryRepository loginHistoryRepository;
 
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -34,6 +38,14 @@ public class AuthService {
 
         var memberTokenInfo = TokenInfo.from(member);
         var jwtToken = jwtTokenProvider.issue(memberTokenInfo);
+
+        // 사용자 로그인 기록 Insert
+        var loginHistory = LoginHistory.builder()
+                .memberId(authRequest.getMemberId())
+                .ipAddress(HttpUtil.getClientIpAddress())
+                .build();
+        
+        loginHistoryRepository.save(loginHistory);
 
         return AuthResponse.builder()
                 .memberId(member.getMemberId())

@@ -12,8 +12,8 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "AUTH_HISTORY")
-public class AuthHistory extends CommonEntity {
+@Table(name = "LOGIN_HISTORY")
+public class LoginHistory extends CommonEntity {
 
     @Column(name = "MEMBER_ID")
     private String memberId;
